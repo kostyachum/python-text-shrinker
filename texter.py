@@ -16,11 +16,19 @@ ANALYZE_OPTIONS = (
     (ANALYZE_TYPE_TAB_NAME, 'Tab')
 )
 
+
 ANALYZE_NAME_TO_VALUE_MAP = {
     ANALYZE_TYPE_WORD_NAME: ANALYZE_TYPE_WORD,
     ANALYZE_TYPE_SENTENCE_NAME: ANALYZE_TYPE_SENTENCE,
     ANALYZE_TYPE_LINE_NAME: ANALYZE_TYPE_LINE,
     ANALYZE_TYPE_TAB_NAME: ANALYZE_TYPE_TAB,
+}
+
+ANALYZE_LAYOUT_MAP = {
+    ANALYZE_TYPE_WORD_NAME: '&nbsp;',
+    ANALYZE_TYPE_SENTENCE_NAME: '.',
+    ANALYZE_TYPE_LINE_NAME: '<br>',
+    ANALYZE_TYPE_TAB_NAME: '&emsp',
 }
 
 
@@ -30,7 +38,7 @@ class Entity:
 
 
 class CharAnalyzer:
-    ignore_chars = [' ', '.', ',', ':', '"', '\t', '(', ')', '-']
+    ignore_chars = ' ,./;"[]{}!@#$%^&*()_+~`?><:"|-\'\n\t'
 
     def __init__(self, text):
         self.text = text
@@ -58,7 +66,9 @@ class Texter:
 
     def __init__(self, source_text, analyze_type):
         self.source_text = source_text
+        self.analyze_type_name = analyze_type
         self.analyze_type = ANALYZE_NAME_TO_VALUE_MAP.get(analyze_type)
+        self.analyze_type_layout = ANALYZE_LAYOUT_MAP.get(analyze_type)
         if not self.analyze_type:
             raise ValueError('{} is not available analyze type'.format(analyze_type))
 

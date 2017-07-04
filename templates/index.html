@@ -22,13 +22,11 @@
             </h1>
             <form method="post">
                 <div>
-                    <textarea name="source_text" cols="100">
-
-                    </textarea>
+                    <textarea name="source_text" cols="120" rows="10">{{ texter.source_text }}</textarea>
                 </div>
                 <select name="analyze_type">
                     {% for key, value in analyze_options %}
-                    <option value="{{key}}">{{value}}</option>
+                    <option value="{{key}}" {% if key==texter.analyze_type_name %} selected {% endif %}>{{value}}</option>
                     {% endfor %}
                 </select>
                 <button type="submit" class="btn btn-success">Analyze it</button>
@@ -71,7 +69,7 @@
     <div class="delimiter"></div>
     <div class="row">
         <div class="col-md-12">
-            {% for entity in texter.analyzed_entities %}<span class="entity" data-toggle="tooltip" data-placement="top" title="{{ entity.char_stat_relative }}">{{ entity.text }}</span>{{ texter.analyze_type|safe }}{% endfor %}
+            {% for entity in texter.analyzed_entities %}<span class="entity" data-toggle="tooltip" data-placement="top" title="{{ entity.char_stat_relative }}">{{ entity.text | safe }}</span>{{ texter.analyze_type_layout|safe }}{% endfor %}
 
         </div>
     </div>
