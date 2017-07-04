@@ -1,0 +1,9 @@
+.entity:hover{
+    background: #5F9EA0;
+    cursor: pointer;
+}
+
+.delimiter{
+    border-bottom: 1px solid black;
+    margin-bottom: 10px;
+}

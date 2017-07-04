@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Text analyzer</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+</head>
+
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <h1>
+                Put some text to  analyze
+            </h1>
+            <form method="post">
+                <div>
+                    <textarea name="source_text" cols="100">
+
+                    </textarea>
+                </div>
+                <select name="analyze_type">
+                    {% for key, value in analyze_options %}
+                    <option value="{{key}}">{{value}}</option>
+                    {% endfor %}
+                </select>
+                <button type="submit" class="btn btn-success">Analyze it</button>
+            </form>
+        </div>
+    </div>
+    {% if texter %}
+    <h2>Results</h2>
+    <h3>Total</h3>
+    <div class="delimiter"></div>
+
+    <canvas id="myChart" width="400" height="200"></canvas>
+
+        <script>
+        var ctx = document.getElementById("myChart").getContext('2d');
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: {{ keys | safe }},
+                datasets: [{
+                    data: {{ values | safe }},
+
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero:true
+                        }
+                    }]
+                }
+            }
+        });
+    </script>
+
+
+    <h3>By entity</h3>
+    <div class="delimiter"></div>
+    <div class="row">
+        <div class="col-md-12">
+            {% for entity in texter.analyzed_entities %}
+            <span class="entity" data-toggle="tooltip" data-placement="top" title="{{ entity.char_stat_relative }}">{{ entity.text }}</span>{{ texter.analyze_type|safe }}
+
+            {% endfor %}
+
+        </div>
+    </div>
+    {% endif %}
+</div>
+</body>
+</html>
+
