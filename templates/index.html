@@ -71,10 +71,7 @@
     <div class="delimiter"></div>
     <div class="row">
         <div class="col-md-12">
-            {% for entity in texter.analyzed_entities %}
-            <span class="entity" data-toggle="tooltip" data-placement="top" title="{{ entity.char_stat_relative }}">{{ entity.text }}</span>{{ texter.analyze_type|safe }}
-
-            {% endfor %}
+            {% for entity in texter.analyzed_entities %}<span class="entity" data-toggle="tooltip" data-placement="top" title="{{ entity.char_stat_relative }}">{{ entity.text }}</span>{{ texter.analyze_type|safe }}{% endfor %}
 
         </div>
     </div>

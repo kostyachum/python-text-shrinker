@@ -10,6 +10,7 @@ app = Flask(__name__)
 def index():
     texter = None
     keys = None
+    values = None
 
     if request.method == 'POST':
         texter = Texter(source_text=request.form['source_text'], analyze_type=request.form['analyze_type'])

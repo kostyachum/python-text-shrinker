@@ -43,6 +43,7 @@ class CharAnalyzer:
 
     def collect_total_char_stat(self):
         for ch in self.text:
+            ch = ch.lower()
             if ch in self.ignore_chars:
                 continue
             self.char_stat_total[ch] = self.char_stat_total.get(ch, 0) + 1
