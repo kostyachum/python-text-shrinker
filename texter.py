@@ -1,3 +1,4 @@
+import json
 
 ANALYZE_TYPE_WORD = ' '
 ANALYZE_TYPE_SENTENCE = '.'
@@ -48,6 +49,15 @@ class CharAnalyzer:
 
         self.collect_total_char_stat()
         self.calculate_relative_char_stat()
+
+    def get_stat_keys(self):
+        return list(self.char_stat_relative.keys())
+
+    def get_stat_values(self):
+        return ["{0:.2f}".format(value) for value in self.char_stat_relative.values()]
+
+    def get_json(self):
+        return json.dumps([{'label': key, 'value': "{0:.2f}".format(value), 'source': 'origin'} for key, value in self.char_stat_relative.items()])
 
     def collect_total_char_stat(self):
         for ch in self.text:

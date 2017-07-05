@@ -10,7 +10,10 @@
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='simple-chart.css') }}">
+    <script src="{{ url_for('static', filename='simple-chart.js') }}"></script>
 </head>
 
 <body>
@@ -38,31 +41,8 @@
     <h3>Total</h3>
     <div class="delimiter"></div>
 
-    <canvas id="myChart" width="400" height="200"></canvas>
+<div id="orignalStats" style="height: 400px;"></div>
 
-        <script>
-        var ctx = document.getElementById("myChart").getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: {{ keys | safe }},
-                datasets: [{
-                    data: {{ values | safe }},
-
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero:true
-                        }
-                    }]
-                }
-            }
-        });
-    </script>
 
 
     <h3>By entity</h3>
@@ -76,5 +56,25 @@
     {% endif %}
 </div>
 </body>
+<script>
+$('#orignalStats').simpleChart({
+
+  item: {
+    label: {{ texter.analyzed_source.get_stat_keys()|safe }}, // string
+    value: {{ texter.analyzed_source.get_stat_values()|safe }}, //integer
+    outputValue: [], // Optimized values: instead of 10240 bytes you can output 10kb if you provide the array
+    color: ['#00CED1'],
+    prefix: '',
+    suffix: '%',
+    decimals: 2,
+    height: null,
+    render: {
+        size: 'relative', /* Relative - the height of the items is relative to the maximum value */
+        margin: 1,
+        radius: null
+    }
+  },
+})
+</script>
 </html>
 
